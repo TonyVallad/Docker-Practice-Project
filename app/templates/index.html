@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home - My First Flask App{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Site Logo" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+        <h1>My First Flask App</h1>
+        <div class="button-container" style="margin-top: 20px;">
+            <a href="{{ url_for('main.add_user_form_submit') }}"><button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; font-size: 16px; margin-top: 20px; cursor: pointer; border-radius: 5px;">Register</button></a>
+            <a href="{{ url_for('main.list_users') }}"><button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; font-size: 16px; margin-top: 20px; cursor: pointer; border-radius: 5px;">User List</button></a>
+        </div>
+    </div>
+{% endblock %}

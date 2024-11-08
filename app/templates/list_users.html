@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}User List - My First Flask App{% endblock %}
+
+{% block content %}
+    <div class="container" style="text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: white;">
+        <h1>List of Users</h1>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            {% for user in users %}
+            <li style="padding: 10px 0; border-bottom: 1px solid #ddd;">{{ user.username }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('main.add_user_form_submit') }}">
+            <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; font-size: 16px; margin-top: 20px; cursor: pointer; border-radius: 5px;">Add Another User</button>
+        </a>
+    </div>
+{% endblock %}

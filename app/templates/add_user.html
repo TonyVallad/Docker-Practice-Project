@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Add User - My First Flask App{% endblock %}
+
+{% block content %}
+    <div class="container" style="text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: white;">
+        <h1>Add a New User</h1>
+        <form method="POST" action="{{ url_for('main.add_user_form_submit') }}" style="display: flex; flex-direction: column; align-items: center;">
+            {{ form.hidden_tag() }}
+
+            <div style="margin-bottom: 20px;">
+                {{ form.username.label }}<br>
+                {{ form.username(size=32) }}
+                {% if form.username.errors %}
+                    <div style="color: red;">{{ form.username.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                {{ form.email.label }}<br>
+                {{ form.email(size=32) }}
+                {% if form.email.errors %}
+                    <div style="color: red;">{{ form.email.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                {{ form.password.label }}<br>
+                {{ form.password(size=32) }}
+                {% if form.password.errors %}
+                    <div style="color: red;">{{ form.password.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div style="margin-top: 20px;">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}
