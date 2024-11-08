@@ -1,4 +1,4 @@
-### **<h1 align="center">Flask Practice Project</h1>**
+### **<h1 align="center">Docker Practice Project</h1>**
 
 <p align="center">
   <img src="app/static/logo.png" alt="Main Image">
