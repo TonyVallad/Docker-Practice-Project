@@ -121,7 +121,7 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments (venv)
+# Environments
 .env
 .venv
 env/
@@ -129,10 +129,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-venv_dir/
-
-# Temporary
-tmp/
 
 # Spyder project settings
 .spyderproject
@@ -165,5 +161,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Database
-instance/
+# AI Models
+app/ai-model/
+
+# Files in static to ignore
+app/static/local/
+app/static/openfoodfact_clean.csv
