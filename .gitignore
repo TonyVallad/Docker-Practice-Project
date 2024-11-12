@@ -166,4 +166,4 @@ app/ai-model/
 
 # Files in static to ignore
 app/static/local/
-app/static/openfoodfact_clean.csv
+app/static/csv/openfoodfact_clean.csv

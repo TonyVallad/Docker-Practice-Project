@@ -1,5 +1,6 @@
 from config import Config
 from flask import Flask
+from app.modules.database import initialize_database
 from app.routes.main_routes import main_bp as main
 from app.routes.api_routes import api_bp
 from app.routes.product_routes import product_bp
@@ -12,6 +13,9 @@ def create_app():
     """
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    # Initialize the database
+    initialize_database()
 
     # Initialize the loading status
     app.config['loading_dataframe_status'] = {"complete": False}

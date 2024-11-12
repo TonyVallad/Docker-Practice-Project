@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, current_app, jsonify
+from flask import Blueprint, render_template, current_app, jsonify, request
 from config import Config
 from app.modules.forms import NutriScoreForm
 from app.modules.explore_data import load_dataframe
 from app.modules.create_ai_model import load_and_preprocess_data, train_model
+from app.modules.database import insert_prediction, conn
 import pandas as pd
 import threading
 import os
@@ -148,6 +149,11 @@ def predict():
             nutriscore_grade = ordinal_encoder.inverse_transform(prediction.reshape(-1, 1))[0][0]
             predicted_score = nutriscore_grade
 
+            data = request.form.to_dict()  # Collect data from form submission
+
+            # Insert prediction into the database
+            insert_prediction(data, nutriscore_grade)
+
             # Print predicted score
             print("\033[94mPredicted Nutri-Grade:\033[0m", predicted_score, "\n")
         except Exception as e:
@@ -156,6 +162,39 @@ def predict():
             predicted_score = "Error"
 
     return render_template('prediction_form.html', form=form, pnns_groups_list=pnns_groups_list, predicted_score=predicted_score)
+
+# Prediction history
+@main_bp.route('/history')
+def history():
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT product_name, pnns_groups_1, energy_kcal_100g, fat_100g, saturated_fat_100g,
+               sugars_100g, fiber_100g, proteins_100g, salt_100g, sodium_100g,
+               fruits_vegetables_nuts_estimate_from_ingredients_100g, prediction_result
+        FROM predictions
+    ''')
+    predictions = cursor.fetchall()
+
+    # Convert to a list of dictionaries for easier use in the template
+    prediction_list = [
+        {
+            "product_name": row[0],
+            "pnns_groups_1": row[1],
+            "energy_kcal_100g": row[2],
+            "fat_100g": row[3],
+            "saturated_fat_100g": row[4],
+            "sugars_100g": row[5],
+            "fiber_100g": row[6],
+            "proteins_100g": row[7],
+            "salt_100g": row[8],
+            "sodium_100g": row[9],
+            "fruits_vegetables_nuts_estimate_from_ingredients_100g": row[10],
+            "prediction_result": row[11]
+        }
+        for row in predictions
+    ]
+
+    return render_template('history.html', predictions=prediction_list)
 
 # Loading Data Route
 @main_bp.route('/loading_data')

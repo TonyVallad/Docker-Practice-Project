@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from app.modules.database import insert_prediction
 import joblib
 from config import Config
 import pandas as pd
@@ -42,6 +43,10 @@ def predict_nutriscore():
 
         # Decode the prediction if necessary
         prediction_grade = ordinal_encoder_grade.inverse_transform([[prediction]])[0][0]
+
+        data = request.get_json()  # Collect data from JSON payload
+
+        insert_prediction(data, prediction_grade)
 
         return jsonify({"nutriscore_grade": prediction_grade})
 

@@ -1,0 +1,31 @@
+services:
+  nutriscore-app:
+    image: nutriscore-predictor
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - nutriscore_model:/app/ai-model
+      - ./app/static/csv:/app/static/csv
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - nutriscore_network
+
+  postgres:
+    image: postgres:latest
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nutriscore_network
+
+volumes:
+  nutriscore_model:
+  postgres_data:
+
+networks:
+  nutriscore_network:

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction History{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center my-4">Prediction History</h1>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Main Food Group</th>
+                    <th>Energy (kcal/100g)</th>
+                    <th>Fat (g/100g)</th>
+                    <th>Saturated Fat (g/100g)</th>
+                    <th>Sugars (g/100g)</th>
+                    <th>Fiber (g/100g)</th>
+                    <th>Proteins (g/100g)</th>
+                    <th>Salt (g/100g)</th>
+                    <th>Sodium (g/100g)</th>
+                    <th>Fruits/Vegetables/Nuts (g/100g)</th>
+                    <th>Grade Predicted</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prediction in predictions %}
+                <tr>
+                    <td style="width: 200px;">{{ prediction.product_name }}</td>
+                    <td>{{ prediction.pnns_groups_1 }}</td>
+                    <td>{{ prediction.energy_kcal_100g }}</td>
+                    <td>{{ prediction.fat_100g }}</td>
+                    <td>{{ prediction.saturated_fat_100g }}</td>
+                    <td>{{ prediction.sugars_100g }}</td>
+                    <td>{{ prediction.fiber_100g }}</td>
+                    <td>{{ prediction.proteins_100g }}</td>
+                    <td>{{ prediction.salt_100g }}</td>
+                    <td>{{ prediction.sodium_100g }}</td>
+                    <td>{{ prediction.fruits_vegetables_nuts_estimate_from_ingredients_100g }}</td>
+                    <td><img src="{{ url_for('static', filename='nutriscore-' ~ prediction.prediction_result ~ '-new-en.svg') }}" alt="Nutriscore" class="nutriscore-image"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        .tr {
+            vertical-align: middle;
+        }
+        .td {
+            text-align: center;
+        }
+        .nutriscore-image {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+{% endblock %}
