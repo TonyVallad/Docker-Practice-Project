@@ -3,57 +3,70 @@
 {% block title %}Prediction History{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <h1 class="text-center my-4">Prediction History</h1>
-        
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Main Food Group</th>
-                    <th>Energy (kcal/100g)</th>
-                    <th>Fat (g/100g)</th>
-                    <th>Saturated Fat (g/100g)</th>
-                    <th>Sugars (g/100g)</th>
-                    <th>Fiber (g/100g)</th>
-                    <th>Proteins (g/100g)</th>
-                    <th>Salt (g/100g)</th>
-                    <th>Sodium (g/100g)</th>
-                    <th>Fruits/Vegetables/Nuts (g/100g)</th>
-                    <th>Grade Predicted</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for prediction in predictions %}
-                <tr>
-                    <td style="width: 200px;">{{ prediction.product_name }}</td>
-                    <td>{{ prediction.pnns_groups_1 }}</td>
-                    <td>{{ prediction.energy_kcal_100g }}</td>
-                    <td>{{ prediction.fat_100g }}</td>
-                    <td>{{ prediction.saturated_fat_100g }}</td>
-                    <td>{{ prediction.sugars_100g }}</td>
-                    <td>{{ prediction.fiber_100g }}</td>
-                    <td>{{ prediction.proteins_100g }}</td>
-                    <td>{{ prediction.salt_100g }}</td>
-                    <td>{{ prediction.sodium_100g }}</td>
-                    <td>{{ prediction.fruits_vegetables_nuts_estimate_from_ingredients_100g }}</td>
-                    <td><img src="{{ url_for('static', filename='nutriscore-' ~ prediction.prediction_result ~ '-new-en.svg') }}" alt="Nutriscore" class="nutriscore-image"></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+        <!-- Header Row -->
+        <div class="row table-header font-weight-bold">
+            <div class="col product-name-col">Product Name</div>
+            <div class="col">Main Food Group</div>
+            <div class="col">Energy (kcal/100g)</div>
+            <div class="col">Fat (g/100g)</div>
+            <div class="col">Saturated Fat (g/100g)</div>
+            <div class="col">Sugars (g/100g)</div>
+            <div class="col">Fiber (g/100g)</div>
+            <div class="col">Proteins (g/100g)</div>
+            <div class="col">Salt (g/100g)</div>
+            <div class="col">Sodium (g/100g)</div>
+            <div class="col">Fruits/Vegetables/Nuts (g/100g)</div>
+            <div class="col">Grade Predicted</div>
+        </div>
+
+        <!-- Data Rows -->
+        {% for prediction in predictions %}
+        <div class="row table-row">
+            <div class="col product-name-col">{{ prediction.product_name }}</div>
+            <div class="col">{{ prediction.pnns_groups_1 }}</div>
+            <div class="col">{{ prediction.energy_kcal_100g }}</div>
+            <div class="col">{{ prediction.fat_100g }}</div>
+            <div class="col">{{ prediction.saturated_fat_100g }}</div>
+            <div class="col">{{ prediction.sugars_100g }}</div>
+            <div class="col">{{ prediction.fiber_100g }}</div>
+            <div class="col">{{ prediction.proteins_100g }}</div>
+            <div class="col">{{ prediction.salt_100g }}</div>
+            <div class="col">{{ prediction.sodium_100g }}</div>
+            <div class="col">{{ prediction.fruits_vegetables_nuts_estimate_from_ingredients_100g }}</div>
+            <div class="col">
+                <img src="{{ url_for('static', filename='nutriscore-' ~ prediction.prediction_result ~ '-new-en.svg') }}" alt="Nutriscore" class="nutriscore-image">
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
     <style>
-        .tr {
-            vertical-align: middle;
+        .table-header, .table-row {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            padding: 8px 0;
+            align-items: center;
         }
-        .td {
+        .table-header {
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+        .col {
+            flex: 1;
+            padding: 4px 8px;
             text-align: center;
         }
+        .product-name-col {
+            flex: 0 0 250px; /* Fixed width for the product name column */
+            text-align: left;
+        }
         .nutriscore-image {
-            max-width: 100px;
+            max-width: 80px;
             height: auto;
+            vertical-align: middle;
         }
     </style>
 {% endblock %}
