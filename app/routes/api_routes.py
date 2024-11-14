@@ -1,9 +1,13 @@
 from flask import Blueprint, request, jsonify
 from app.modules.database import insert_prediction
-import joblib
+import pickle
 from config import Config
 import pandas as pd
 import os
+import sys
+
+# Adjust the path to access the config file from the root directory
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 # Define the blueprint for the API
 api_bp = Blueprint('api_bp', __name__)
@@ -11,10 +15,17 @@ api_bp = Blueprint('api_bp', __name__)
 # Load your model
 # Checks if the model exists
 if os.path.exists(Config.MODEL_PATH):
-    model = joblib.load(Config.MODEL_PATH)
-    label_encoder_pnns = joblib.load('app/ai-model/label_encoder_pnns.pkl')
-    ordinal_encoder_grade = joblib.load('app/ai-model/ordinal_encoder_grade.pkl')
-    scaler = joblib.load('app/ai-model/scaler.pkl')
+    with open(Config.MODEL_PATH, "rb") as model_file:
+        model = pickle.load(model_file)
+
+    with open('app/ai-model/label_encoder_pnns.pkl', "rb") as label_encoder_file:
+        label_encoder_pnns = pickle.load(label_encoder_file)
+
+    with open('app/ai-model/ordinal_encoder_grade.pkl', "rb") as ordinal_encoder_file:
+        ordinal_encoder_grade = pickle.load(ordinal_encoder_file)
+
+    with open('app/ai-model/scaler.pkl', "rb") as scaler_file:
+        scaler = pickle.load(scaler_file)
 
 @api_bp.route('/api/v1/predict-nutriscore', methods=['POST'])
 def predict_nutriscore():

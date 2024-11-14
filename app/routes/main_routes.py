@@ -7,7 +7,7 @@ from app.modules.database import insert_prediction, conn
 import pandas as pd
 import threading
 import os
-import joblib
+import pickle
 
 main_bp = Blueprint('main', __name__)
 
@@ -75,7 +75,7 @@ def predict():
     products = current_app.config['PRODUCTS_DF']
     pnns_groups_list = sorted(products['pnns_groups_1'].dropna().unique())
 
-    # Check if the model exists and load it using joblib
+    # Check if the model exists and load it using pickle
     model_path = os.path.join('app', 'ai-model', 'model.pkl')
     scaler_path = os.path.join('app', 'ai-model', 'scaler.pkl')
     label_encoder_path = os.path.join('app', 'ai-model', 'label_encoder_pnns.pkl')
@@ -87,10 +87,17 @@ def predict():
         train_model(df, label_encoder_pnns, ordinal_encoder_grade)
 
     # Load the stored model and components
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
-    label_encoder = joblib.load(label_encoder_path)
-    ordinal_encoder = joblib.load(ordinal_encoder_path)
+    with open(model_path, "rb") as model_file:
+        model = pickle.load(model_file)
+
+    with open(scaler_path, "rb") as scaler_file:
+        scaler = pickle.load(scaler_file)
+
+    with open(label_encoder_path, "rb") as label_encoder_file:
+        label_encoder = pickle.load(label_encoder_file)
+
+    with open(ordinal_encoder_path, "rb") as ordinal_encoder_file:
+        ordinal_encoder = pickle.load(ordinal_encoder_file)
 
     # Initialize the form
     form = NutriScoreForm()

@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, accuracy_score, mean_absolute_error, confusion_matrix, ConfusionMatrixDisplay, roc_curve, auc, precision_recall_curve, average_precision_score
 from sklearn.multiclass import OneVsRestClassifier
 from itertools import cycle
-import joblib
+import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -291,10 +291,17 @@ def save_model_and_encoders(model, scaler, label_encoder_pnns, ordinal_encoder_g
     os.makedirs(save_dir, exist_ok=True)
 
     # Save the model and other components
-    joblib.dump(model, os.path.join(save_dir, 'model.pkl'))
-    joblib.dump(scaler, os.path.join(save_dir, 'scaler.pkl'))
-    joblib.dump(label_encoder_pnns, os.path.join(save_dir, 'label_encoder_pnns.pkl'))
-    joblib.dump(ordinal_encoder_grade, os.path.join(save_dir, 'ordinal_encoder_grade.pkl'))
+    with open(os.path.join(save_dir, 'model.pkl'), "wb") as model_file:
+        pickle.dump(model, model_file)
+
+    with open(os.path.join(save_dir, 'scaler.pkl'), "wb") as scaler_file:
+        pickle.dump(scaler, scaler_file)
+
+    with open(os.path.join(save_dir, 'label_encoder_pnns.pkl'), "wb") as label_encoder_file:
+        pickle.dump(label_encoder_pnns, label_encoder_file)
+
+    with open(os.path.join(save_dir, 'ordinal_encoder_grade.pkl'), "wb") as ordinal_encoder_file:
+        pickle.dump(ordinal_encoder_grade, ordinal_encoder_file)
 
     print(f"\n\033[92mModel and encoders saved to '{save_dir}'\033[0m\n")
 
