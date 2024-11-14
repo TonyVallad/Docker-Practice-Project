@@ -3,47 +3,55 @@
 {% block title %}Prediction History{% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid px-3">
         <h1 class="text-center my-4">Prediction History</h1>
 
-        <!-- Header Row -->
-        <div class="row table-header font-weight-bold">
-            <div class="col product-name-col">Product Name</div>
-            <div class="col">Main Food Group</div>
-            <div class="col">Energy (kcal/100g)</div>
-            <div class="col">Fat (g/100g)</div>
-            <div class="col">Saturated Fat (g/100g)</div>
-            <div class="col">Sugars (g/100g)</div>
-            <div class="col">Fiber (g/100g)</div>
-            <div class="col">Proteins (g/100g)</div>
-            <div class="col">Salt (g/100g)</div>
-            <div class="col">Sodium (g/100g)</div>
-            <div class="col">Fruits/Vegetables/Nuts (g/100g)</div>
-            <div class="col">Grade Predicted</div>
-        </div>
-
-        <!-- Data Rows -->
-        {% for prediction in predictions %}
-        <div class="row table-row">
-            <div class="col product-name-col">{{ prediction.product_name }}</div>
-            <div class="col">{{ prediction.pnns_groups_1 }}</div>
-            <div class="col">{{ prediction.energy_kcal_100g }}</div>
-            <div class="col">{{ prediction.fat_100g }}</div>
-            <div class="col">{{ prediction.saturated_fat_100g }}</div>
-            <div class="col">{{ prediction.sugars_100g }}</div>
-            <div class="col">{{ prediction.fiber_100g }}</div>
-            <div class="col">{{ prediction.proteins_100g }}</div>
-            <div class="col">{{ prediction.salt_100g }}</div>
-            <div class="col">{{ prediction.sodium_100g }}</div>
-            <div class="col">{{ prediction.fruits_vegetables_nuts_estimate_from_ingredients_100g }}</div>
-            <div class="col">
-                <img src="{{ url_for('static', filename='nutriscore-' ~ prediction.prediction_result ~ '-new-en.svg') }}" alt="Nutriscore" class="nutriscore-image">
+        {% if predictions %}
+            <!-- Header Row -->
+            <div class="row table-header font-weight-bold">
+                <div class="col product-name-col">Product Name</div>
+                <div class="col">Main Food Group</div>
+                <div class="col">Energy (kcal/100g)</div>
+                <div class="col">Fat (g/100g)</div>
+                <div class="col">Saturated Fat (g/100g)</div>
+                <div class="col">Sugars (g/100g)</div>
+                <div class="col">Fiber (g/100g)</div>
+                <div class="col">Proteins (g/100g)</div>
+                <div class="col">Salt (g/100g)</div>
+                <div class="col">Sodium (g/100g)</div>
+                <div class="col">Fruits/Vegetables/Nuts (g/100g)</div>
+                <div class="col">Grade Predicted</div>
             </div>
-        </div>
-        {% endfor %}
+
+            <!-- Data Rows -->
+            {% for prediction in predictions %}
+            <div class="row table-row">
+                <div class="col product-name-col">{{ prediction.product_name }}</div>
+                <div class="col">{{ prediction.pnns_groups_1 }}</div>
+                <div class="col">{{ prediction.energy_kcal_100g }}</div>
+                <div class="col">{{ prediction.fat_100g }}</div>
+                <div class="col">{{ prediction.saturated_fat_100g }}</div>
+                <div class="col">{{ prediction.sugars_100g }}</div>
+                <div class="col">{{ prediction.fiber_100g }}</div>
+                <div class="col">{{ prediction.proteins_100g }}</div>
+                <div class="col">{{ prediction.salt_100g }}</div>
+                <div class="col">{{ prediction.sodium_100g }}</div>
+                <div class="col">{{ prediction.fruits_vegetables_nuts_estimate_from_ingredients_100g }}</div>
+                <div class="col">
+                    <img src="{{ url_for('static', filename='nutriscore-' ~ prediction.prediction_result ~ '-new-en.svg') }}" alt="Nutriscore" class="nutriscore-image">
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center my-4">No prediction history available.</p>
+        {% endif %}
     </div>
 
     <style>
+        .container-fluid {
+            padding-left: 50px;
+            padding-right: 50px;
+        }
         .table-header, .table-row {
             display: flex;
             border-bottom: 1px solid #ddd;

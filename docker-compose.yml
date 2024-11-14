@@ -7,6 +7,7 @@ services:
     volumes:
       - nutriscore_model:/app/ai-model
       - ./app/static/csv:/app/static/csv
+      - .:/app  # Mounts the entire app directory
     env_file:
       - .env
     depends_on:
